@@ -1,14 +1,11 @@
-const debug = require('debug')('weathermap');
-
 const Koa = require('koa');
 const router = require('koa-router')();
 const fetch = require('node-fetch');
 const cors = require('kcors');
 
-
 const appId = process.env.APPID || '4825a558f5791dd9a89cbfbd03ee206f';
-const mapURI = process.env.MAP_ENDPOINT || "http://api.openweathermap.org/data/2.5";
-const targetCity = process.env.TARGET_CITY || "Helsinki,fi";
+const mapURI = process.env.MAP_ENDPOINT || 'http://api.openweathermap.org/data/2.5';
+const targetCity = process.env.TARGET_CITY || 'Helsinki,fi';
 
 const port = process.env.PORT || 9000;
 
@@ -16,12 +13,11 @@ const app = new Koa();
 
 app.use(cors());
 
-
 const fetchWeather = async () => {
-  const endpoint = mapURI +'/weather?q='+targetCity+'&APPID='+appId+'&';
+  const endpoint = mapURI + '/weather?q=' + targetCity + '&APPID=' + appId + '&';
   const response = await fetch(endpoint);
 
-  return response ? response.json() : {}
+  return response ? response.json() : {};
 };
 
 router.get('/api/weather', async ctx => {
