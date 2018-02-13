@@ -2,9 +2,9 @@ version: '3'
 services:
   server:
     build:
-      context: ./docker/dev
-      dockerfile: Dockerfile
-    image: weatherapp-backend
+      context: ./docker/config
+      dockerfile: Dockerfile.server
+    image: weatherapp-server
     deploy:
       resources: # Set these values when you know what you do!
         limits:
@@ -15,18 +15,18 @@ services:
           memory: 20M
     ports:
       - '80:80' # Connect localhost 80 port to container 80 port
-    links: # Link services to access http://app and  http://api inside the container
-      - api:api
-      - app:app
+    links: # Link services to access http://weather-backend and  http://weather-frontend inside the container
+      - api:weather-backend
+      - app:weather-frontend
   app:
     build:
-      context: ../.
-      dockerfile: docker/app/Dockerfile.dev
-    image: myapp-app
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: weather-frontend
     environment:
       - NODE_ENV=development
     volumes: # For webpack dev server to use our local files
-      - ./../app:/usr/src/app
+      - ./frontend/src:/usr/src/app
     ports:
       - '3000:3000' # For docker to now where to redirect HMR queries
   api:
@@ -39,11 +39,11 @@ services:
           cpus: '0.0001'
           memory: 20M
     build:
-      context: ../.
-      dockerfile: docker/api/Dockerfile.dev
-    image: myapp-api
+      context: ./backend
+      dockerfile: Dockerfile
+    image: weather-backend
     volumes:
-      - ./../api:/usr/src/api
+      - ./backend/src:/usr/src/api
     ports:
       - '8080'
 
