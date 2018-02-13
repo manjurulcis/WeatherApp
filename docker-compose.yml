@@ -1,23 +1,23 @@
 version: '3'
 services:
-  server:
-    build:
-      context: ./docker/config
-      dockerfile: Dockerfile.server
-    image: weatherapp-server
-    deploy:
-      resources: # Set these values when you know what you do!
-        limits:
-          cpus: '0.001'
-          memory: 50M
-        reservations:
-          cpus: '0.0001'
-          memory: 20M
-    ports:
-      - '80:80' # Connect localhost 80 port to container 80 port
-    links: # Link services to access http://weather-backend and  http://weather-frontend inside the container
-      - api:weather-backend
-      - app:weather-frontend
+  # server:
+  #   build:
+  #     context: ./docker/nginx
+  #     dockerfile: Dockerfile
+  #   image: weatherapp-server
+  #   deploy:
+  #     resources: # Set these values when you know what you do!
+  #       limits:
+  #         cpus: '0.001'
+  #         memory: 50M
+  #       reservations:
+  #         cpus: '0.0001'
+  #         memory: 20M
+  #   ports:
+  #     - '80:80' # Connect localhost 80 port to container 80 port
+  #   links: # Link services to access http://weather-backend and  http://weather-frontend inside the container
+  #     - api:weather-backend
+  #     - app:weather-frontend
   app:
     build:
       context: ./frontend
