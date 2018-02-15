@@ -14,12 +14,15 @@ export default class SelectCity extends React.Component{
         window.selectedCity = cities[$('select').val()];
         //console.log(window.selectedCity);
     }
+    updateState(){
+        console.log('update state called')
+    }
     render (){
         cities = Cities.getCities();
         return (
                 <div className='row sc-container'>
                     <div className='col s6 offset-s1'><SelectOptions options={cities} handleSelect={this.handleSelect}/></div>
-                    <Link to='/weather'><div className='col s4 enter-button'><SuccessButton name='Enter' /></div></Link>
+                    <div className='col s4 enter-button'><button onClick={this.updateState} name="show">Show</button></div>
                 </div>
         );
     }

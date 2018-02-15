@@ -4,6 +4,10 @@
 
 import React from 'react';
 
+import Cities from '../services/Cities';
+import WeatherApi from '../services/WeatherApi';
+import ProcessWeatherData from '../services/ProcessWeatherData';
+
 export default class SelectCity extends React.Component {
     constructor() {
         super();

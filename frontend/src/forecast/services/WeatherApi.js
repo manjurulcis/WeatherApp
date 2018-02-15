@@ -3,10 +3,10 @@
 */
 
 const GETApi = {
-    'url': process.env.ENDPOINT,
+    'url': 'http://api.openweathermap.org/data/2.5/forecast?id=', //process.env.ENDPOINT,
     'type': 'GET',
     'data': {
-        'APPID': process.env.API_KEY,
+        'APPID': '4825a558f5791dd9a89cbfbd03ee206f',//process.env.API_KEY,
         'units': 'metric'
     },
     'success': function (data) {},
