@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './forecast/app';
 
 const baseURL = process.env.ENDPOINT;
 
@@ -34,7 +35,8 @@ class Weather extends React.Component {
     return (
       <div className="icon">
         { icon && <img src={`/img/${icon}.svg`} /> }
-      </div>
+      </div>,
+      <App />
     );
   }
 }
