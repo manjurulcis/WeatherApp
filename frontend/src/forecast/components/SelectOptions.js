@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /*
     Export Select Options Component
@@ -30,3 +31,7 @@ export default class SelectOptions extends React.Component {
     }
 };
 
+SelectOptions.propTypes = {
+    options: PropTypes.array.isRequired,
+    handleSelect: PropTypes.func.isRequired,
+};

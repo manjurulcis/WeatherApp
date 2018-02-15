@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /*
     Export Button Component
@@ -10,3 +11,7 @@ export default class SuccessButton extends React.Component {
     }
 }
 
+SuccessButton.propTypes = {
+    onClick: PropTypes.func,
+    name: PropTypes.string.isRequired,
+};
