@@ -12,7 +12,29 @@ export default class SelectCity extends React.Component {
             reportData: < PreLoader / >
         }
     }
-
+    handleServerData(data) {
+        // Callback to handle Server Data
+        if (data.cod === '200') {
+            let serverData = ProcessWeatherData(data);
+            //console.log(serverData);
+            let chartData = {
+                city: data.city,
+                data: serverData,
+                xAxis: 'time',
+                bar: 'rain',
+                line1: 'Day',
+                line2: 'temp',
+                line3: 'wind',
+                line4: 'humid'
+            }
+            // Show WeatherReport to View
+            this.setState({
+                reportData: <WeatherReport data={chartData}/>
+            })
+        } else {
+            console.error('handleServerData : Something Went Wrong ', data);
+        }
+    }
     componentWillMount() {
     }
 
