@@ -4,12 +4,28 @@ import { BrowserRouter as Router, Route, Link, browserHistory } from 'react-rout
   Route Container for Application
 */
 import SelectCity from './containers/SelectCity'
-import Weather from './containers/Weather'
-export default class App extends React.Component {
+export default class Forecast extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+          // Show Waiting Icon
+          //reportData: <PreLoader />,
+          selectedCityFromComponent: null
+      };
+      this.callbackSetSelectedCity = this.callbackSetSelectedCity.bind(this);
+    }
+
+
+    callbackSetSelectedCity(cityId) {
+        console.log('Data in forecast', cityId);
+        this.setState({ selectedCityFromComponent: cityId});
+    }
+
+
     render() {
       return (
         <div class='container hoverable root-container'>
-          <SelectCity />
+          <SelectCity color='blue' setSelectedCity={this.callbackSetSelectedCity} />
         </div>
       )
     }

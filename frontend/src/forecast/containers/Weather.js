@@ -13,7 +13,7 @@ export default class SelectCity extends React.Component {
         super();
         this.state = {
             // Show Waiting Icon
-            reportData: < PreLoader / >
+            reportData: <PreLoader />
         }
     }
     handleServerData(data) {

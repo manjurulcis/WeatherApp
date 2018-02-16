@@ -10,9 +10,15 @@ import Cities from '../services/Cities';
 
 let cities;
 export default class SelectCity extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            // Show Waiting Icon
+        }
+    }
     handleSelect(){
-        window.selectedCity = cities[$('select').val()];
-        //console.log(window.selectedCity);
+        this.props.setSelectedCity(cities.getCityID([$('select').val()]));
+        console.log(window.selectedCity);
     }
     updateState(){
         console.log('update state called')
@@ -20,10 +26,12 @@ export default class SelectCity extends React.Component{
     render (){
         cities = Cities.getCities();
         return (
+            <div>
                 <div className='row sc-container'>
-                    <div className='col s6 offset-s1'><SelectOptions options={cities} handleSelect={this.handleSelect}/></div>
-                    <div className='col s4 enter-button'><button onClick={this.updateState} name="show">Show</button></div>
+                    <div className='col s6 offset-s1'><SelectOptions options={cities} handleSelect={this.handleSelect.bind(this)}/></div>
+                    <div className='col s4 enter-button'><button onClick={this.updateState} name="show">Show </button></div>
                 </div>
+            </div>    
         );
     }
 }
