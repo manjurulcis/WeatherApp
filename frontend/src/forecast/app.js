@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link, browserHistory } from 'react-rout
   Route Container for Application
 */
 import SelectCity from './containers/SelectCity'
-//import Weather from './containers/Weather'; 
+import Weather from './containers/Weather'; 
 export default class Forecast extends React.Component {
     constructor(props) {
       super(props);
@@ -20,6 +20,7 @@ export default class Forecast extends React.Component {
     callbackSetSelectedCity(cityName) {
         console.log('Data in forecast', cityName);
         this.setState({ selectedCityFromComponent: cityName});
+        this.props.setCityName(cityName);//Set cityname in parent
     }
 
 
@@ -27,7 +28,7 @@ export default class Forecast extends React.Component {
       return (
         <div class='container hoverable root-container'>
           <SelectCity color='blue' setSelectedCity={this.callbackSetSelectedCity} />
-          
+          <Weather reportData={this.props.reportData} />
         </div>
       )
     }

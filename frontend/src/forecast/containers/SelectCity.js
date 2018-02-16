@@ -29,7 +29,6 @@ export default class SelectCity extends React.Component{
             <div>
                 <div className='row sc-container'>
                     <div className='col s6 offset-s1'><SelectOptions options={cities} handleSelect={this.handleSelect.bind(this)}/></div>
-                    <div className='col s4 enter-button'><button onClick={this.updateState} name="show">Show </button></div>
                 </div>
             </div>    
         );

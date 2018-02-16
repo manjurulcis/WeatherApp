@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Forecast from './forecast/app';
+import ProcessData from './forecast/services/ProcessWeatherData';
 
 const baseURL = process.env.ENDPOINT;
 
-const getWeatherFromApi = async (options) => {
+const getWeatherFromApi = async (cityName) => {
   try {
-    const response = await fetch(`${baseURL}/weather`, options);
+    const response = await fetch(`${baseURL}/weather/`+ cityName);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -14,8 +15,16 @@ const getWeatherFromApi = async (options) => {
 
   return {};
 };
-const queryParams = (params) => {
-  return 
+
+const getWeatherForcast = async (cityName) => {
+  try {
+    const response = await fetch(`${baseURL}/forecast/`+ cityName);
+    return response.json();
+  } catch (error) {
+    console.error(error);
+  }
+
+  return {};
 };
 
 class Weather extends React.Component {
@@ -24,13 +33,38 @@ class Weather extends React.Component {
 
     this.state = {
       icon: "",
-      currentCity: "Helsinki,FI"
+      currentCity: "Helsinki,FI", 
+      reportData: null
     };
   }
 
   async componentWillMount() {
-    const weather = await getWeatherFromApi({cityName: this.state.currentCity});
+    const weather = await getWeatherFromApi(this.state.currentCity);
     this.setState({icon: weather.icon.slice(0, -1)});
+  }
+
+  async componentWillMount() {
+    const weather = await getWeatherFromApi(this.state.currentCity);
+    this.setState({icon: weather.icon.slice(0, -1)});
+    const weatherForecast = await getWeatherForcast(this.state.currentCity);
+    let serverData = ProcessData(weatherForecast);
+    this.state.reportData = {
+      city: weatherForecast.city,
+      data: serverData,
+      xAxis: 'time',
+      bar: 'rain',
+      line1: 'Day',
+      line2: 'temp',
+      line3: 'wind',
+      line4: 'humid'
+    }
+    console.log(this.state.reportData);
+  }
+
+  setCityName(cityName) {
+    console.log('current city', cityName);
+    this.state.currentCity = cityName;
+    this.componentWillMount();
   }
 
   render() {
@@ -38,8 +72,8 @@ class Weather extends React.Component {
 
     return (
       <div>
-        <Forecast />
-        
+        <Forecast reportData={this.state.reportData} setCityName={this.setCityName.bind(this)} />
+
         <div className="icon">
           { icon && <img src={`/img/${icon}.svg`} /> }
         </div>

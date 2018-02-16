@@ -21,26 +21,26 @@ const fetchWeather = async (cityName) => {
   return response ? response.json() : {};
 };
 
-const forecast = async () => {
-  var endpoint = mapURI + '/forecast/?q=658225&APPID=' + appId + '&cnt=3';
+const fetchForecast = async (cityName) => {
+  var endpoint = mapURI + '/forecast/?q='+cityName+',FI&APPID=' + appId + '&cnt=3';
   const response = await fetch(endpoint);
 
   return response ? response.json() : {};
 };
 
-router.get('/api/weather', async ctx => {
+router.get('/api/weather/:cityName',  async ctx => {
   var ip = require('ip');
   console.log('IP Address', ip.address());
   console.log('IP Address', ctx.params.cityName);
-  const weatherData = await fetchWeather("Helsinki,FI");
+  const weatherData = await fetchWeather(ctx.params.cityName);
   ctx.type = 'application/json; charset=utf-8';
   ctx.body = weatherData.weather ? weatherData.weather[0] : {};
 });
 
-router.get('/api/forecast', async ctx => {
+router.get('/api/forecast/:cityName', async ctx => {
   var ip = require('ip');
   console.log('IP Address', ip.address());
-  const weatherData = await fetchWeather('forcast');
+  const weatherData = await fetchForecast(ctx.params.cityName);
   ctx.type = 'application/json; charset=utf-8';
   ctx.body = weatherData;
 });
