@@ -17,7 +17,7 @@ export default class SelectCity extends React.Component{
         }
     }
     handleSelect(){
-        this.props.setSelectedCity(cities.getCityID([$('select').val()]));
+        this.props.setSelectedCity(cities[$('select').val()]);
         console.log(window.selectedCity);
     }
     updateState(){

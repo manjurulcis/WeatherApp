@@ -3,7 +3,7 @@
 */
 
 const GETApi = {
-    'url': 'http://api.openweathermap.org/data/2.5/forecast?id=', //process.env.ENDPOINT,
+    'url': 'http://api.openweathermap.org/data/2.5/forecast?q=', //process.env.ENDPOINT,
     'type': 'GET',
     'data': {
         'APPID': '4825a558f5791dd9a89cbfbd03ee206f',//process.env.API_KEY,
@@ -17,8 +17,9 @@ const GETApi = {
 
 export default (id, callback) => {
     // Replaces call back function and concat City ID to Request and return GET Api Object 
-    return { ...GETApi,
+    return { 
         url: GETApi.url + id,
-        success: callback
+        success: callback,
+        ...GETApi
     }
 }

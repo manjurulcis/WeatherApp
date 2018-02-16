@@ -43,11 +43,10 @@ export default class SelectCity extends React.Component {
     }
 
     componentDidMount() {
-        // Get City ID
-        window.selectedCity = window.selectedCity !== undefined ? window.selectedCity : 'Helsinki';
-        const cityID = Cities.getCityID(window.selectedCity);
+        // Get City name from props
+        const cityName = this.props.cityName;
         // Dispatch GET request to server and provide CallBack function
-        $.ajax(WeatherApi(cityID, this.handleServerData.bind(this)));
+        $.ajax(WeatherApi(cityName, this.handleServerData.bind(this)));
     }
 
     render() {

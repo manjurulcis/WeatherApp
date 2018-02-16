@@ -4,15 +4,18 @@ import Forecast from './forecast/app';
 
 const baseURL = process.env.ENDPOINT;
 
-const getWeatherFromApi = async () => {
+const getWeatherFromApi = async (options) => {
   try {
-    const response = await fetch(`${baseURL}/weather`);
+    const response = await fetch(`${baseURL}/weather`, options);
     return response.json();
   } catch (error) {
     console.error(error);
   }
 
   return {};
+};
+const queryParams = (params) => {
+  return 
 };
 
 class Weather extends React.Component {
@@ -21,12 +24,12 @@ class Weather extends React.Component {
 
     this.state = {
       icon: "",
-      getSelectedCity: null
+      currentCity: "Helsinki,FI"
     };
   }
 
   async componentWillMount() {
-    const weather = await getWeatherFromApi();
+    const weather = await getWeatherFromApi({cityName: this.state.currentCity});
     this.setState({icon: weather.icon.slice(0, -1)});
   }
 
