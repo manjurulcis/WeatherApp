@@ -41,11 +41,8 @@ class Weather extends React.Component {
   async componentWillMount() {
     const weather = await getWeatherFromApi(this.state.currentCity);
     this.setState({icon: weather.icon.slice(0, -1)});
-  }
-
-  async componentWillMount() {
-    const weather = await getWeatherFromApi(this.state.currentCity);
-    this.setState({icon: weather.icon.slice(0, -1)});
+    
+    //weather report
     const weatherForecast = await getWeatherForcast(this.state.currentCity);
     let serverData = ProcessData(weatherForecast);
     this.state.reportData = {
@@ -64,9 +61,9 @@ class Weather extends React.Component {
   setCityName(cityName) {
     console.log('current city', cityName);
     this.state.currentCity = cityName;
-    this.componentWillMount();
+    this.componentWillMount()
   }
-
+  
   componentDidMount(){
     if (navigator.geolocation) {
       // geolocation is available
