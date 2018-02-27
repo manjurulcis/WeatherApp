@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Link, browserHistory } from 'react-rout
 /*
   Route Container for Application
 */
-import SelectCity from './containers/SelectCity'
 import Weather from './containers/Weather'; 
 export default class Forecast extends React.Component {
     constructor(props) {
@@ -27,8 +26,14 @@ export default class Forecast extends React.Component {
     render() {
       return (
         <div class='container hoverable root-container'>
-          <SelectCity color='blue' setSelectedCity={this.callbackSetSelectedCity} />
-          <Weather reportData={this.props.reportData} />
+          <div className="icon">
+          <h3>Current Weather</h3>
+            { icon && <img src={`/img/${this.props.icon}.svg`} /> }
+          </div>
+          <div class="report">
+            <Weather reportData={this.props.reportData} />
+          </div>
+          
         </div>
       )
     }

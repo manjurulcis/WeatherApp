@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Forecast from './forecast/app';
 import ProcessData from './forecast/services/ProcessWeatherData';
+import Cities from './forecast/services/Cities';
+import SelectOptions from './forecast/components/SelectOptions';
 
 const baseURL = process.env.ENDPOINT;
-
+let cities;
 const getWeatherFromApi = async (cityName) => {
   try {
     const response = await fetch(`${baseURL}/weather/`+ cityName);
@@ -32,20 +34,22 @@ class Weather extends React.Component {
     super(props);
 
     this.state = {
-      icon: "",
+      selectedCities: [],
       currentCity: "Helsinki,FI", 
-      reportData: null
+      cities: null
     };
   }
 
-  async componentWillMount() {
-    const weather = await getWeatherFromApi(this.state.currentCity);
-    this.setState({icon: weather.icon.slice(0, -1)});
+  async componentWillMount(cityname) {
+    if (cityname == undefined) return;
+    const weather = await getWeatherFromApi(cityname);
+    console.log(weather);
     
     //weather report
-    const weatherForecast = await getWeatherForcast(this.state.currentCity);
+    const weatherForecast = await getWeatherForcast(cityname);
+    console.log(weatherForecast);
     let serverData = ProcessData(weatherForecast);
-    this.state.reportData = {
+    let reportData = {
       city: weatherForecast.city,
       data: serverData,
       xAxis: 'time',
@@ -55,78 +59,41 @@ class Weather extends React.Component {
       line3: 'wind',
       line4: 'humid'
     }
-    console.log(this.state.reportData);
+    this.state.selectedCities.push({icon: weather.icon.slice(0, -1), reportData: reportData, city: cityname });
+    this.setState({weatherdata: this.selectedCities});
+    this.shouldComponentUpdate()
   }
 
-  setCityName(cityName) {
-    console.log('current city', cityName);
+  setCityName() {
+    let cityName = cities[$('select').val()];
     this.state.currentCity = cityName;
-    this.componentWillMount()
+    this.componentWillMount(cityName)
   }
   
   componentDidMount(){
-    if (navigator.geolocation) {
-      // geolocation is available
-      console.log('working geo location')
-      navigator.geolocation.getCurrentPosition(
+    this.setState({weatherdata: this.state.selectedCities})
+  }
 
-        // Success callback
-        function(position) {
-            console.log(position)
-            /*
-            position is an object containing various information about
-            the acquired device location:
-    
-            position = {
-                coords: {
-                    latitude - Geographical latitude in decimal degrees.
-                    longitude - Geographical longitude in decimal degrees. 
-                    altitude - Height in meters relative to sea level.
-                    accuracy - Possible error margin for the coordinates in meters. 
-                    altitudeAccuracy - Possible error margin for the altitude in meters. 
-                    heading - The direction of the device in degrees relative to north. 
-                    speed - The velocity of the device in meters per second.
-                }
-                timestamp - The time at which the location was retrieved.
-            }
-            */
-    
-        },
-    
-        // Optional error callback
-        function(error){
-    
-            /* 
-            In the error object is stored the reason for the failed attempt:
-    
-            error = {
-                code - Error code representing the type of error 
-                        1 - PERMISSION_DENIED
-                        2 - POSITION_UNAVAILABLE
-                        3 - TIMEOUT
-    
-                message - Details about the error in human-readable format.
-            }
-            */
-    
-        }
-    );
-    } 
-    else {
-      // geolocation is not supported
-    }
+  renderCityData(){
+    console.log(this.state.selectedCities);
+    if (this.state.selectedCities.length == 0) return;
+    const reportblock = this.state.selectedCities.map((option, i) => {
+      return <Forecast icon={option.icon} reportData={option.reportData} />;
+    });
+
+    return reportblock;
   }
 
   render() {
-    const { icon } = this.state;
-
+     cities = Cities.getCities();
     return (
       <div>
-        <Forecast reportData={this.state.reportData} setCityName={this.setCityName.bind(this)} />
-
-        <div className="icon">
-          { icon && <img src={`/img/${icon}.svg`} /> }
+        <div>
+                <div className='row sc-container'>
+                    <div className='col s6 offset-s1'><SelectOptions options={cities} handleSelect={this.setCityName.bind(this)}/></div>
+                </div>
         </div>
+        {this.renderCityData}
       </div>
     );
   }
