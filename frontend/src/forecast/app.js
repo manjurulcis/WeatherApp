@@ -24,17 +24,23 @@ export default class Forecast extends React.Component {
 
 
     render() {
-      return (
-        <div class='container hoverable root-container'>
-          <div className="icon">
-          <h3>Current Weather</h3>
-            { icon && <img src={`/img/${this.props.icon}.svg`} /> }
-          </div>
-          <div class="report">
-            <Weather reportData={this.props.reportData} />
-          </div>
-          
+      var selectedCities = [];
+      for (var i = 0; i < this.props.weatherdata; i++) {
+        selectedCities.push(<div class='container hoverable root-container'>
+        <div className="icon">
+        <h3>Current Weather</h3>
+          { this.props.weatherdata[i].icon && <img src={`/img/${this.props.weatherdata[i].icon}.svg`} /> }
         </div>
+        <div class="report">
+          <Weather reportData={this.props.weatherdata[i].reportData} />
+        </div>
+        
+      </div>);
+
+      }
+      if (!selectedCities.length) return null;
+      return (
+        {selectedCities}
       )
     }
   }

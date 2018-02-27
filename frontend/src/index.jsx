@@ -60,8 +60,7 @@ class Weather extends React.Component {
       line4: 'humid'
     }
     this.state.selectedCities.push({icon: weather.icon.slice(0, -1), reportData: reportData, city: cityname });
-    this.setState({weatherdata: this.selectedCities});
-    this.shouldComponentUpdate()
+    console.log(this.state);
   }
 
   setCityName() {
@@ -74,18 +73,8 @@ class Weather extends React.Component {
     this.setState({weatherdata: this.state.selectedCities})
   }
 
-  renderCityData(){
-    console.log(this.state.selectedCities);
-    if (this.state.selectedCities.length == 0) return;
-    const reportblock = this.state.selectedCities.map((option, i) => {
-      return <Forecast icon={option.icon} reportData={option.reportData} />;
-    });
-
-    return reportblock;
-  }
-
   render() {
-     cities = Cities.getCities();
+    cities = Cities.getCities();
     return (
       <div>
         <div>
@@ -93,7 +82,7 @@ class Weather extends React.Component {
                     <div className='col s6 offset-s1'><SelectOptions options={cities} handleSelect={this.setCityName.bind(this)}/></div>
                 </div>
         </div>
-        {this.renderCityData}
+        <Forecast weatherdata={this.state.selectedCities} />
       </div>
     );
   }
