@@ -9,5 +9,5 @@ node_modules
 
 # webstorm setting
 .idea/
-.vs_code
+.vscode
 .vs
