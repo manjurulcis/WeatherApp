@@ -20,7 +20,7 @@ Luckily we now have [docker compose](https://docs.docker.com/compose/) saving us
 
 * Add a **docker-compose.yml** -file connecting the frontend and the backend, enabling running the app in a connected set of containers.
 
-### Optional (do as many as you like)
+### Future Update
 
 * The application now only reports the current weather. It should probably report the forecast e.g. a few hours from now. (tip: [openweathermap api](https://openweathermap.org/forecast5))
 
